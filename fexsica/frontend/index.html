@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FEXsics - Forensic Image Analysis</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>FEXsics</span>
+                </div>
+                <nav class="nav">
+                    <a href="#" onclick="navigateTo('upload')" class="nav-link">Analysis</a>
+                    <a href="#" onclick="navigateTo('history')" class="nav-link">History</a>
+                    <a href="#" onclick="navigateTo('help')" class="nav-link">Help</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <!-- Upload Section -->
+            <section id="upload-section" class="section active">
+                <div class="section-title">
+                    <h1>Forensic Image Analysis</h1>
+                    <p>Physics-grounded authenticity verification for legal proceedings</p>
+                </div>
+
+                <div class="upload-container">
+                    <!-- Image Upload Area -->
+                    <div class="upload-area" id="uploadArea">
+                        <div class="upload-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <h2>Upload Image for Analysis</h2>
+                        <p>Drag and drop your image here or click to select</p>
+                        <p class="upload-formats">Supported: JPEG, PNG, TIFF, WebP, BMP (Max 50MB)</p>
+                        <input type="file" id="imageInput" accept="image/jpeg,image/png,image/tiff,image/webp,image/bmp" hidden>
+                    </div>
+
+                    <!-- Preview Section -->
+                    <div id="previewSection" class="preview-section" style="display: none;">
+                        <div class="preview-image">
+                            <img id="previewImg" src="" alt="Image preview">
+                        </div>
+                        <div class="preview-info">
+                            <div class="file-info">
+                                <p><strong>File Name:</strong> <span id="fileName"></span></p>
+                                <p><strong>File Size:</strong> <span id="fileSize"></span></p>
+                                <p><strong>Status:</strong> <span id="fileStatus" class="status-pending">Ready</span></p>
+                            </div>
+                            <button id="clearImageBtn" class="btn btn-secondary">Clear</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case Information Form -->
+                <div class="form-section">
+                    <h2>Case Information</h2>
+                    <form id="caseForm" class="case-form">
+                        <div class="form-group">
+                            <label for="caseNumber">Case Number *</label>
+                            <input type="text" id="caseNumber" name="caseNumber" required 
+                                   placeholder="e.g., 2024-001234"
+                                   pattern="[A-Za-z0-9\-_]+" title="Alphanumeric characters only">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="caseName">Case Name *</label>
+                            <input type="text" id="caseName" name="caseName" required 
+                                   placeholder="e.g., State v. Defendant">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="investigator">Investigator Name</label>
+                            <input type="text" id="investigator" name="investigator" 
+                                   placeholder="Optional: Your name or department">
+                        </div>
+
+                        <div class="form-group checkbox">
+                            <input type="checkbox" id="includeReport" name="includeReport" checked>
+                            <label for="includeReport">Generate PDF Report</label>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" id="submitBtn">
+                            <i class="fas fa-play"></i> Start Analysis
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Analysis Progress Section -->
+            <section id="progress-section" class="section" style="display: none;">
+                <div class="section-title">
+                    <h1>Analysis in Progress</h1>
+                </div>
+
+                <div class="progress-container">
+                    <div class="case-info-display">
+                        <h3 id="progressCaseNumber"></h3>
+                        <p id="progressCaseName"></p>
+                    </div>
+
+                    <!-- Engine Progress -->
+                    <div class="engines-progress">
+                        <h3>Forensic Engines</h3>
+                        <div class="engine-list" id="engineList">
+                            <!-- Dynamically populated -->
+                        </div>
+                    </div>
+
+                    <!-- Overall Progress -->
+                    <div class="overall-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="overallProgress"></div>
+                        </div>
+                        <p id="progressText">Initializing analysis...</p>
+                    </div>
+
+                    <div class="progress-details">
+                        <p id="progressDetails" class="details-text"></p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section id="results-section" class="section" style="display: none;">
+                <div class="section-title">
+                    <h1>Analysis Results</h1>
+                </div>
+
+                <!-- Main Verdict -->
+                <div class="verdict-container" id="verdictContainer">
+                    <!-- Dynamically populated -->
+                </div>
+
+                <!-- Summary -->
+                <div class="summary-box" id="summaryBox">
+                    <!-- Dynamically populated -->
+                </div>
+
+                <!-- Bayesian Analysis -->
+                <div class="bayesian-box">
+                    <h3><i class="fas fa-chart-bar"></i> Bayesian Analysis</h3>
+                    <div class="bayesian-content" id="bayesianContent">
+                        <!-- Dynamically populated -->
+                    </div>
+                </div>
+
+                <!-- Engine Results Table -->
+                <div class="engines-results">
+                    <h3>Forensic Engine Verdicts</h3>
+                    <table id="enginesTable" class="results-table">
+                        <thead>
+                            <tr>
+                                <th>Engine</th>
+                                <th>Verdict</th>
+                                <th>Confidence</th>
+                                <th>Key Finding</th>
+                            </tr>
+                        </thead>
+                        <tbody id="enginesTableBody">
+                            <!-- Dynamically populated -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Chain of Custody -->
+                <div class="chain-of-custody">
+                    <h3><i class="fas fa-link"></i> Chain of Custody</h3>
+                    <div class="hash-display">
+                        <div class="hash-item">
+                            <label>Analysis ID:</label>
+                            <code id="analysisId"></code>
+                        </div>
+                        <div class="hash-item">
+                            <label>Image Hash (SHA-256):</label>
+                            <code id="imageHash"></code>
+                            <button class="btn btn-small" onclick="copyToClipboard('imageHash')">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                        <div class="hash-item" id="reportHashItem" style="display: none;">
+                            <label>Report Hash (SHA-256):</label>
+                            <code id="reportHash"></code>
+                            <button class="btn btn-small" onclick="copyToClipboard('reportHash')">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="results-actions">
+                    <button id="downloadReportBtn" class="btn btn-primary" style="display: none;">
+                        <i class="fas fa-download"></i> Download PDF Report
+                    </button>
+                    <button onclick="navigateTo('upload')" class="btn btn-secondary">
+                        <i class="fas fa-plus"></i> New Analysis
+                    </button>
+                </div>
+            </section>
+
+            <!-- History Section -->
+            <section id="history-section" class="section" style="display: none;">
+                <div class="section-title">
+                    <h1>Analysis History</h1>
+                </div>
+
+                <div class="history-container">
+                    <div id="historyList" class="history-list">
+                        <p class="empty-state">No analyses yet. Start by uploading an image.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Help Section -->
+            <section id="help-section" class="section" style="display: none;">
+                <div class="section-title">
+                    <h1>Help & Documentation</h1>
+                </div>
+
+                <div class="help-content">
+                    <div class="help-section">
+                        <h3><i class="fas fa-question-circle"></i> What is FEXsics?</h3>
+                        <p>FEXsics (Forensic Expert System for Image Credibility & Authenticity) is a physics-grounded 
+                           forensic analysis system that detects image manipulation, deepfakes, and AI-generated content 
+                           using 7 independent forensic engines.</p>
+                    </div>
+
+                    <div class="help-section">
+                        <h3><i class="fas fa-cogs"></i> How Does It Work?</h3>
+                        <p>The system analyzes your image using multiple forensic techniques:</p>
+                        <ul>
+                            <li><strong>ELA Engine:</strong> Detects JPEG compression inconsistencies</li>
+                            <li><strong>Metadata Engine:</strong> Analyzes camera metadata and timestamps</li>
+                            <li><strong>Noise Engine:</strong> Checks sensor fingerprints and noise patterns</li>
+                            <li><strong>Illumination Engine:</strong> Analyzes light source consistency</li>
+                            <li><strong>Geometry Engine:</strong> Checks perspective and vanishing points</li>
+                            <li><strong>Deepfake Engine:</strong> Detects GAN-synthesized faces</li>
+                            <li><strong>AI-Gen Engine:</strong> Detects AI-generated images</li>
+                        </ul>
+                        <p>Results are combined using Bayesian inference for a final verdict.</p>
+                    </div>
+
+                    <div class="help-section">
+                        <h3><i class="fas fa-image"></i> Supported Formats</h3>
+                        <p>Supported image formats:</p>
+                        <ul>
+                            <li>JPEG (.jpg, .jpeg)</li>
+                            <li>PNG (.png)</li>
+                            <li>TIFF (.tif, .tiff)</li>
+                            <li>WebP (.webp)</li>
+                            <li>BMP (.bmp)</li>
+                        </ul>
+                        <p>Maximum file size: 50MB</p>
+                        <p>Recommended minimum: 32x32 pixels</p>
+                    </div>
+
+                    <div class="help-section">
+                        <h3><i class="fas fa-shield-alt"></i> About Verdicts</h3>
+                        <p><strong>Authentic:</strong> Image appears to be an unmodified camera capture</p>
+                        <p><strong>Manipulated:</strong> Evidence indicates the image has been edited or spliced</p>
+                        <p><strong>Inconclusive:</strong> Forensic evidence is mixed; further analysis needed</p>
+                    </div>
+
+                    <div class="help-section">
+                        <h3><i class="fas fa-lock"></i> Privacy & Security</h3>
+                        <p>All images are analyzed locally. Chain of custody is maintained via SHA-256 hashing. 
+                           Analysis results include audit trails suitable for legal proceedings.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+        <div class="spinner"></div>
+        <p id="loadingText">Processing...</p>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- Scripts -->
+    <script src="api.js"></script>
+    <script src="components.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

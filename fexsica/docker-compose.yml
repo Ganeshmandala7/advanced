@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  fexsics:
+    build: .
+    container_name: fexsics-analysis
+    volumes:
+      - ./data:/data
+      - ./logs:/app/logs
+      - ./results:/app/results
+    environment:
+      - PYTHONUNBUFFERED=1
+      - FEXSICS_DATA_DIR=/data
+    ports:
+      - "8000:8000"
+    command: python -m fexsics
+
+volumes:
+  data:
+  logs:
+  results:
